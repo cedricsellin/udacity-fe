@@ -1,0 +1,117 @@
+.container{
+    display: grid;
+    grid-template-columns: 100px 100px 1fr;
+    grid-template-rows: minmax(50px, auto) minmax(100px,auto) minmax(150px, auto) auto;
+    grid-template-areas: "ti ti nav"
+    "photo bio bio"
+    "txt txt txt"
+    "otherwork otherwork otherwork";
+}
+.photo{
+    grid-area:photo;
+    background-image:url('/images/blogs/elon.jpg');
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    background-size:contain;
+    
+}
+.title {
+    grid-area:ti;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    font-size: 0.8em;
+    background-color:lightgrey;
+    margin-bottom:15px;
+}
+h1 {
+    font-size:1.4em;
+
+}
+h2 {
+    margin-block-start:0.3em;
+    margin-block-end:0.3em;
+    font-size: 1.2em;
+}
+h3 {
+    margin-block-start:0.1em;
+    margin-block-end:0.1em;
+    font-size: 1.0em;
+}
+h4 {
+    font-weight: normal;
+    font-size:0.8em;
+}
+
+.nav {
+    grid-area:nav;
+}
+
+.home {
+    display:block;
+    background-image:url('/images/icons/home.png');
+    background-position-x: 95%;
+    background-position-y:50%;
+    background-repeat: no-repeat;
+    height: 50px;
+    background-color:lightgrey;
+    margin-bottom:15px;
+    background-size:contain;
+}
+
+.blogcontent{
+    display:flex;
+    flex-direction: column;
+    grid-area:txt;
+    border-width: 5px;
+    background-color:antiquewhite;
+    padding-bottom: 10px;
+    margin-top:15px;
+}
+.blogcontent > section {
+    max-width: 90%;
+    margin-left:5%;
+}
+
+.bio {
+    grid-area:bio;
+    display:flex;
+    flex-direction: column;
+    max-width: 90%;
+    margin-left:5%;
+    line-height: 1.0em;
+    font-size: 1.0em;
+}
+
+.wrap {
+    display: grid;
+    grid-template-columns: 100px auto;
+    grid-template-rows:auto;
+    grid-template-areas: "owlogo owtitle";
+}
+.otherwork{
+    grid-area:otherwork;
+    display: grid;
+}
+
+.otherwork > h2 {
+    margin-left:5%;
+}
+
+.owlogo {
+    grid-area: owlogo;
+    background-size:contain;
+    background-position-x: 50%;
+    background-position-y: 50%;
+    max-height:100px;
+
+}
+
+.owtitle{
+    grid-area:owtitle;
+    display:flex;
+    flex-direction: column;
+    max-width: 85%;
+    margin-left:7.5%;
+}

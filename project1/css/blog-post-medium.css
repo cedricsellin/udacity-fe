@@ -1,0 +1,22 @@
+@media(min-width:800px) {   
+    .photo {
+        background-position-y: 50%;
+    }
+    .home {
+        background-image:url('/images/icons/home.png');
+        height: 80px;
+    }
+    .wrap {
+        grid-template-columns: 150px auto;
+    }
+    h4 {
+        font-size:1.0em;
+    }
+    h3 {
+        font-size:1.2em;
+    }
+
+    .sidebar {
+        align-items: left;
+    }
+}

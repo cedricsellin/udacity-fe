@@ -1,0 +1,51 @@
+@media(min-width:800px) {
+  .container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "hd1 main"
+    "sb main"
+    "ft ft";
+  }
+
+  .sidebar {
+    text-align: left;
+    justify-content: start;
+    border-right-style:solid;
+    border-color:black;
+    border-width:2px;
+    height: 100%;
+    padding-right: 10px;
+    background-color:lightgrey;
+    align-items: start;
+  }
+
+  .articlebutton {
+      margin:0;
+
+  }
+  .sidebar > button {
+    text-align: left;
+  }
+  .sidebar > h1 {
+    margin:0;
+  }
+
+  #logo {
+    border-right-style:solid;
+    border-color:black;
+    border-width:2px;
+    background-position-x: 0%;
+    background-color:lightgrey;
+  }
+  
+  #actions {
+    justify-self: end;
+  }
+  .navbutton {
+    padding: 15px 32px;
+  }
+  .footer {
+    justify-content:flex-end;
+  }
+}

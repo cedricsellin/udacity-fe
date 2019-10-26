@@ -1,0 +1,8 @@
+@media(min-width:1150px) {
+  .main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,450px));
+    justify-content: space-evenly;
+  }
+}
