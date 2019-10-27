@@ -122,7 +122,7 @@ article {
 .blogtitle {
   grid-area: ti;
 }
-.blogtitle > h1 {
+header > h1 {
   font-style: italic;
   font-size:1.6em;
   margin:0;
@@ -150,18 +150,23 @@ article {
 }
 .blogtext {
   grid-area: txt;
+  margin-top:15px;
 }
 
 .blogimg {
   display:flex;
-  max-width: 100%;
-  max-height: 100%;
   grid-area: im;
-  background-size:contain;
-  background-repeat: no-repeat;
-  background-position: right;
-  margin:10px 10px;
+  justify-self: flex-end;
+  max-width: 100px;
+  max-height: 50px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
+
+.blogimg > figure {
+  margin:0;
+}
+
 article > p {
   grid-area: txt;
   justify-content: stretch;
@@ -172,6 +177,10 @@ article > p {
 .hdelem > img {
   max-width: 100%;
   max-height: 100%;
+}
+
+footer {
+  text-align: center;
 }
 
 .footer {

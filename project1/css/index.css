@@ -1,0 +1,4 @@
+@import url("index-default.css") screen;
+@import url("index-medium.css") screen and (min-width:800px);
+@import url("index-large.css") screen and (min-width:1150px);
+@import url("https://fonts.googleapis.com/css?family=Lora");

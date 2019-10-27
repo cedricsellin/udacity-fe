@@ -1,14 +1,13 @@
-@media(min-width:800px) {
-  .container {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas: "hd1 main"
-    "sb main"
-    "ft ft";
-  }
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "hd1 main"
+  "sb main"
+  "ft ft";
+}
 
-  .sidebar {
+.sidebar {
     text-align: left;
     justify-content: start;
     border-right-style:solid;
@@ -48,4 +47,3 @@
   .footer {
     justify-content:flex-end;
   }
-}
