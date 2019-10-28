@@ -35,7 +35,7 @@
 #logo {
   justify-content: left;
   grid-area: hd1;
-  background-image: url('/images/logo.png');
+  background-image: url('../images/logo.png');
   background-size:contain;
   background-repeat: no-repeat;
   background-position-x: 50%;
