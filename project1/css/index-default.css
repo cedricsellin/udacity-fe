@@ -1,89 +1,75 @@
 .container {
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas: "hd1" 
-    "sb"
-    "main"
-    "ft";
-  }
-
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "hd1" "sb" "main" "ft";
+}
 
 .navbutton {
-   border: none;
-   color: white;
-   padding: 15px 15px;
-   margin: 15px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 16px;
-   border-radius: 4px;
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  margin: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
 }
 
 .articlebutton {
-   padding: 15px 15px;
-   margin: 0;
-   text-align: left;
-   text-decoration: none;
-   display: block;
-   font-size: 16px;
-   border-radius: 4px;
-   margin-bottom: 5px;
+  padding: 15px 15px;
+  margin: 0;
+  text-align: left;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-bottom: 5px;
 }
 
 #logo {
   justify-content: left;
   grid-area: hd1;
   background-image: url('../images/logo.png');
-  background-size:contain;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position-x: 50%;
   min-width: 100px;
   min-height: 100px;
-  margin-right:15px;
-
-}
-/*
-#actions {
-    grid-area: hd2; 
-    margin: 5px;
-    justify-self:center;            
+  margin-right: 15px;
 }
 
-#actions > button {
-  background-color:lightsteelblue;
-}
-*/
-
-.sidebar > button {
-  background-color:lightgrey;
+.sidebar>button {
+  background-color: lightgrey;
   text-align: center;
 }
-.sidebar > h1 {
-  margin-top:0;
-}
-.main {
-    grid-area: main;
-    display: grid;
-    justify-content:space-around;
+
+.sidebar>h1 {
+  margin-top: 0;
 }
 
+.main {
+  grid-area: main;
+  display: grid;
+  justify-content: space-around;
+}
 
 .sidebar {
-  display:flex;
+  display: flex;
   flex-direction: column;
   grid-area: sb;
   text-align: left;
   align-items: center;
   justify-content: start;
-  margin-right:15px;
+  margin-right: 15px;
 }
 
-.sidebar > button {
+.sidebar>button {
   text-align: center;
 }
-.sidebar > a {
+
+.sidebar>a {
   font-size: 0.8em;
 }
 
@@ -91,15 +77,12 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto auto 1fr;
-  grid-template-areas: "ti im"
-  "to im"
-  "date im"
-  "txt txt";
+  grid-template-areas: "ti im" "to im" "date im" "txt txt";
   min-height: 200px;
   border-radius: 15px;
-  background-color:lightgrey;
-  margin-bottom:15px;
-} 
+  background-color: lightgrey;
+  margin-bottom: 15px;
+}
 
 #blog1 {
   background-color: antiquewhite;
@@ -116,45 +99,53 @@
 #blog5 {
   background-color: goldenrod;
 }
+
 article {
   font-family: 'Lora', serif;
 }
+
 .blogtitle {
   grid-area: ti;
 }
-header > h1 {
+
+header>h1 {
   font-style: italic;
-  font-size:1.6em;
-  margin:0;
-  margin-left:15px;
+  font-size: 1.6em;
+  margin: 0;
+  margin-left: 15px;
 }
+
 .blogtopic {
   grid-area: to;
 }
-.blogtopic > h2 {
-  font-style:oblique;
-  font-size:1.2em;
+
+.blogtopic>h2 {
+  font-style: oblique;
+  font-size: 1.2em;
   grid-area: to;
-  margin:0;
-  margin-left:15px;
+  margin: 0;
+  margin-left: 15px;
 }
+
 .blogdate {
   grid-area: date;
 }
-.blogdate > h3 {
-  font-style:italic;
-  font-size:0.6em;
+
+.blogdate>h3 {
+  font-style: italic;
+  font-size: 0.6em;
   grid-area: date;
-  margin:0;
-  margin-left:15px;
+  margin: 0;
+  margin-left: 15px;
 }
+
 .blogtext {
   grid-area: txt;
-  margin-top:15px;
+  margin-top: 15px;
 }
 
 .blogimg {
-  display:flex;
+  display: flex;
   grid-area: im;
   justify-self: flex-end;
   max-width: 100px;
@@ -163,18 +154,18 @@ header > h1 {
   margin-right: 5px;
 }
 
-.blogimg > figure {
-  margin:0;
+.blogimg>figure {
+  margin: 0;
 }
 
-article > p {
+article>p {
   grid-area: txt;
   justify-content: stretch;
-  margin-left:20px;
-  margin-right:20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-.hdelem > img {
+.hdelem>img {
   max-width: 100%;
   max-height: 100%;
 }
@@ -185,14 +176,14 @@ footer {
 
 .footer {
   grid-area: ft;
-  display:flex;
+  display: flex;
   width: 100%;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
 
-.ftelem > img {
+.ftelem>img {
   border-radius: 15px;
   margin: 15px;
-  width:60%;
+  width: 60%;
 }

@@ -1,18 +1,23 @@
  .photo {
-    background-position-y: 50%;
-}
-.home {
-    height: 80px;
-}
-.wrap {
-    grid-template-columns: 150px auto;
-}
-h4 {
-    font-size:1.0em;
-}
-h3 {
-    font-size:1.2em;
-}
-.sidebar {
-    align-items: left;
-}
+     background-position-y: 50%;
+ }
+
+ .home {
+     height: 80px;
+ }
+
+ .wrap {
+     grid-template-columns: 150px auto;
+ }
+
+ h4 {
+     font-size: 1.0em;
+ }
+
+ h3 {
+     font-size: 1.2em;
+ }
+
+ .sidebar {
+     align-items: left;
+ }
