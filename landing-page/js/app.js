@@ -106,7 +106,10 @@ function userScrolled () {
   }, 3000)
 }
 
-// build the nav
+/*
+  Add the Navigation Items to the data-nav list already created.
+  Using the menu__link class since it is already configured in the CSS
+*/
 function addNavigationItems () {
   for (let i = 0; i < sections.length; i++) {
     const sec = sections[i]
