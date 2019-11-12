@@ -1,0 +1,73 @@
+#app {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.holder {
+    display:flex;
+    align-content: flex-start;
+    flex-direction: column;
+    padding: 10px 0px;
+}
+
+button{
+    width: 200px;
+    height: 100px;
+    padding-top:20px;
+    background: #3b4a6b;
+    color: #f0d43a;
+    font-size: 26px;
+    font-family: 'Oswald', sans-serif;
+    border: none;
+    box-shadow: 2px 4px 5px #444;
+    align-self: center;
+    margin-top:10px;
+}
+
+h1{
+    font-size: 36px;
+    padding:0;
+}
+#error {
+    font-size: 20px;
+    color: red;
+}
+input{
+    display:block;
+    height: 60px;
+    width: 320px;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+}
+
+textarea {
+    font-size: 20px;
+}
+
+label{
+    display:block;
+    font-size: 27px;
+}
+
+#entrytitle {
+    padding-bottom:0;
+    padding-top:0;
+}
+
+.entry {
+    display: grid;
+    grid-template-columns: 100px 100px 400px;
+    grid-template-rows: auto;
+    grid-template-areas:"date temp cont";
+}
+
+.entrydate {
+    grid-area: date;
+}
+.entrytemp {
+    grid-area: temp;
+}
+.entrycont {
+    grid-area: cont;
+}
