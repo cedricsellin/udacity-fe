@@ -1,13 +1,6 @@
-// Personal API Key for OpenWeatherMap API
-let d = new Date()
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear()
-
-let zipcode = null
-let content = null
-
 const maxFeelingsLength = 2000
 
-function convertJSONtoHTML (json) {
+function convertJSONtoHTML(json) {
     let html = `<div class="entrydate">${json.date}</div> 
     <div class="entrytemp">${json.temp}</div>
     <div class="entrycont">${json.content}</div>`
@@ -15,58 +8,63 @@ function convertJSONtoHTML (json) {
     return html
 }
 
-function clickOnGenerate () {
+function clickOnGenerate() {
     const errorField = document.getElementById('error')
     let errorString = null
     let fieldToFocus = null
     const zipCode = document.getElementById('zip').value
     const feelingsContent = document.getElementById('feelings').value
 
-    if (validateZipCode(zipcode) == false) {
+    if (validateZipCode(zipCode) == false) {
         errorString = "This is an invalid zipcode"
         fieldToFocus = document.getElementById('zip')
-    } else if ( validateContent(feelingsContent) == false) {
+    } else if (validateContent(feelingsContent) == false) {
         errorString = `The content field cannot be empty and be less than ${maxFeelingsLength} characters`
         fieldToFocus = document.getElementById('feelings')
     } else {
-        //TODO: CALL APIS FOR TEMPERATURE!
         errorString = ""
     }
-    
-    errorField.innerHTML=errorString;
-    if (fieldToFocus !== null)
+
+    errorField.innerHTML = errorString;
+    if (fieldToFocus !== null) {
         fieldToFocus.focus()
+        return
+    }
 
-    const fields = {date:"11-1-1", temp:"20", content:"${feelingsContent}"}
-    const JSONversion = JSON.stringify(fields);
-    
-    const postData = async ( url, data)=>{
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = today.getFullYear();
 
-      const response = await fetch(url, {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          credentials: 'same-origin', // include, *same-origin, omit
-          headers: {
-              'Content-Type': 'application/json',
+    const fields = { date: `${yyyy}-${mm}-${dd}`, zip: zipCode, content: `${feelingsContent}` }
+
+    const postData = async (url, data) => {
+
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
             },
-         // body: JSON.stringify(data), // body data type must match "Content-Type" header        
+            body: JSON.stringify(data), // body data type must match "Content-Type" header        
         })
 
         try {
             const newData = await response.json();
             console.log(newData);
+            updateMostRecentEntries(newData)
             return newData
-          } catch (error) {
-          console.log("error", error);
-          // appropriately handle the error
-          }
+        } catch (error) {
+            console.log("error in clickOnGenerate", error);
+        }
     }
 
-    
-    const serverResp = postData('http://localhost:8080/newentry', fields)
-    
+    postData('http://localhost:8080/newentry', fields)
 
+    //Resetting the fields after the entry is logged
+    document.getElementById('zip').value=""
+    document.getElementById('feelings').value=""
     return;
-    //TODO: If success remove Error since it could be from the previous event...
 }
 
 function validateContent(value) {
@@ -79,15 +77,8 @@ function validateContent(value) {
 
 }
 
-function validateZipCode (value) {
-    
-    return true
-    //TODO: CHECK EXCEPTIONS AND CONVERT TO INT THE STRING...
-    if (value > 0 && value < 99999) {
-        return true
-    }
-
-    return false;
+function validateZipCode(value) {
+    return /^\d{5}(-\d{4})?$/.test(value);
 }
 
 // Event listener to add function to existing HTML DOM element
@@ -96,55 +87,38 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('generate').addEventListener('click', clickOnGenerate)
     initializeRecentEntries()
     //Load the content from the server for the previous data
-
 })
 
-//Needs to become an Async function...
-function initializeRecentEntries (){
-    //GET JSON
-    //TODO: Move to a server call
-    const fetchNewData = async (url) => {
-        const response = await fetch(url, {credentials: 'same-origin'})
-        
-        try {
-          const data = await response.json();
-          console.log(data);
+function updateMostRecentEntries(data) {
+    let html = "";
 
-
-          let html = ""
-
-        for (let i = 0; i < data.length; i++) {
-             html += `<div class="entry" id="entryHolder${i}">`+convertJSONtoHTML(data[i])+"</div>"
-        }
-
-        const entryHolder = document.getElementById('entrycontainer')
-        entryHolder.innerHTML = html
-          return data;
-        } catch (error) {
-            console.log("error", error);
-            // appropriately handle the error
-        }
-    
+    for (let i = 0; i < data.length; i++) {
+        html += `<div class="entry" id="entryHolder${i}">` + convertJSONtoHTML(data[i]) + "</div>"
     }
 
-    const newData = fetchNewData('http://localhost:8080/all');
-
-    let html = ""
-
-    for (let i = 0; i < newData.length; i++) {
-            html += `<div class="entry" id="entryHolder${i}">`+convertJSONtoHTML(newData[i])+"</div>"
-    }
-
-    const entryHolder = document.getElementById('entrycontainer')
-    entryHolder.innerHTML = html
+    const entryHolder = document.getElementById('entrycontainer');
+    entryHolder.innerHTML = html;
 }
 
 
-/* Function called by event listener */
+//Needs to become an Async function...
+function initializeRecentEntries() {
 
-/* Function to GET Web API Data*/
+    const fetchNewData = async (url) => {
+        const response = await fetch(url, { credentials: 'same-origin' })
 
-/* Function to POST data */
+        try {
+            const data = await response.json();
+            console.log(data);
 
+            updateMostRecentEntries(data);
 
-/* Function to GET Project Data */
+            return data;
+        } catch (error) {
+            console.log("error in fetchNewData", error);
+        }
+
+    }
+
+    fetchNewData('http://localhost:8080/all');
+}
