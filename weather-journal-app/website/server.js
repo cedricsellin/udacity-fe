@@ -39,7 +39,7 @@ app.post('/newentry', (req, resp) => {
 
     const url = `http://api.openweathermap.org/data/2.5/weather?zip=${zipcode},us&appid=${APIKEY}`
 
-    fetch(url)
+    const projectData = fetch(url)
         .then(response => response.json())
         .then(info => info.main.temp)
         .then(temp => {
