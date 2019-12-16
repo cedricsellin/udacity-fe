@@ -8,7 +8,7 @@ const portNum = 8080
 // Start up an instance of app
 /* Dependencies */
 const app = express()
-const data = []
+const projectData = []
 
 /* Middleware*/
 // Cors for cross origin allowance
@@ -24,12 +24,12 @@ app.use(bodyParser.json())
 // Initialize the main project folder
 // Callback function to complete GET '/all'
 app.get('/all', (req, resp) => {
-    resp.send(JSON.stringify(data))
+    resp.send(JSON.stringify(projectData))
 })
 
 // Post Route
 app.post('/newentry', (req, resp) => {
-    data.push(req.body)
+    projectData.push(req.body)
     resp.status(200)
     resp.statusText = "Data Stored Successfully"
     resp.send()
