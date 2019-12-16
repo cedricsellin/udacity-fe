@@ -6,8 +6,8 @@
 		"node-fetch": "^2.6.0",
 		"redis": "2.8.0"
 	},
-	"scrpis": {
-		"start": "node index.js"
+	"scripts": {
+		"start": "node website/server.js"
 	},
 	"devDependencies": {
 		"eslint": "^6.6.0",
