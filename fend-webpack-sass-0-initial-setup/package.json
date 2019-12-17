@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server/index.js",
     "build-prod": "webpack --config webpack.prod.js",
+    "gogo": "webpack --config webpack.dev.js",
     "build-dev": "webpack-dev-server  --config webpack.dev.js --open"
   },
   "keywords": [],
@@ -14,7 +15,6 @@
   "description": "",
   "dependencies": {
     "express": "^4.17.1",
-    "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5"
   },
   "devDependencies": {
@@ -22,7 +22,14 @@
     "@babel/preset-env": "^7.5.4",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.3.2",
+    "fibers": "^4.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.13.0",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.1",
+    "webpack": "^4.41.3",
     "webpack-dev-server": "^3.7.2"
   }
 }
