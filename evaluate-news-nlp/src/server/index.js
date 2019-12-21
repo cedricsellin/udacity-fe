@@ -1,6 +1,5 @@
 var path = require('path')
 const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
 const AYLIENTextAPI = require('aylien_textapi')
 const dotenv = require('dotenv')
 const validUrl = require('valid-url')
@@ -35,7 +34,6 @@ app.listen(8080, function () {
 app.get('/classify', function (req, res) {
     const content = req.query.param
     let param = null
-    let JSONResponse = { 'query': content, 'text': null }
 
     //Checking if we were passed a URL else pass the data as text
     if (validUrl.isHttpUri(content)) {
@@ -44,15 +42,19 @@ app.get('/classify', function (req, res) {
         param = { text: content }
     }
 
+    let JSONResponse = { 'query': content, 'text': null }
+
     try {
         textapi.classify(param, function (error, response) {
             //Returning both the classification and the query parameters received
 
             if (error == null) {
-                if (response.classify != null)
-                    text = response.classify
-                else
+                if (response.categories != null) {
+                    text = response.categories[0].label
+                }
+                else {
                     text = "Could not classify this content"
+                }
             } else {
                 //Propagating the error to the client could normalize them if needed
                 text = error.toString()

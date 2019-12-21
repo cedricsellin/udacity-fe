@@ -1,19 +1,37 @@
 function handleSubmit(event) {
-    event.preventDefault()
-    resetPage()
-
-    // check what text was put into the form field
     let formText = document.getElementById('name').value
     const url = `http://localhost:8080/classify?param=${formText}`
+
+    event.preventDefault()
+
+    // check what text was put into the form field
+    if (urlValidation(formText) == false) {
+        console.log('invalid URL')
+        setErrorCode('invalid URL')
+        return
+    } else {
+        console.log('url validation passed')
+    }
+    
     fetch(url, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(function (res) {
             console.log(res)
-            document.getElementById('results').innerHTML = res.text
+            document.getElementById('results').innerHTML = "Category: "+res.text
             document.getElementById('query').innerHTML = "The query was " + res.query
         }).catch(error => {
-            document.getElementById('errorField').innerHTML = error.toString()
+            setErrorCode(error.toString())
         })
+
+        resetPage()
+
+}
+
+function setErrorCode(errorString) {
+    //Removing previous information since we got an error
+    resetPage()
+    document.getElementById('errorField').innerHTML = errorString
+
 }
 
 function resetPage() {
@@ -22,4 +40,12 @@ function resetPage() {
     document.getElementById('errorField').innerHTML = ""
 }
 
-export { handleSubmit }
+function urlValidation(url) {
+    console.log(url)
+    //starts with http or https
+    const re = /^http[s]?:\/\/www\.[a-zA-Z0-9]/
+    console.log(re.test(url))
+    return (re.test(url))
+}
+
+export { handleSubmit, urlValidation}

@@ -6,6 +6,4 @@ import ('./styles/header.scss')
 import ('./styles/form.scss')
 import ('./styles/footer.scss')
 
-export {
-    handleSubmit
-}
+export { handleSubmit }
