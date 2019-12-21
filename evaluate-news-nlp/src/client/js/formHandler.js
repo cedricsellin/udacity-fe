@@ -12,7 +12,6 @@ function handleSubmit(event) {
             document.getElementById('results').innerHTML = res.text
             document.getElementById('query').innerHTML = "The query was " + res.query
         }).catch(error => {
-
             document.getElementById('errorField').innerHTML = error.toString()
         })
 }
@@ -21,6 +20,6 @@ function resetPage() {
     document.getElementById('results').innerHTML = ""
     document.getElementById('query').innerHTML = ""
     document.getElementById('errorField').innerHTML = ""
-
 }
+
 export { handleSubmit }
