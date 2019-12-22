@@ -14,7 +14,13 @@ function handleSubmit(event) {
     }
     
     fetch(url, { credentials: 'same-origin' })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status != 200) {
+                throw "Server Error HTTP CODE "+res.status
+            } else {
+                return res.json()
+            }
+        })
         .then(function (res) {
             console.log(res)
             document.getElementById('results').innerHTML = "Category: "+res.text
