@@ -4,13 +4,24 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
+
 module.exports = {
     entry: "./src/client/index.js",
+    mode: 'development',
+    stats: 'verbose',   
+    output: {
+        library: 'lib'
+    },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                use: 'babel-loader'
+                exclude: /node_modules/,
+                loader: 'babel-loader' 
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },
@@ -27,7 +38,8 @@ module.exports = {
             // Automatically remove all unused webpack assets on rebuild
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
-        })
+        }),
+        new MiniCssExtractPlugin({filename: '[name].css'})
     ],
     
 

@@ -1,1 +1,46 @@
-YOYO
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Travel Planner App</title>
+</head>
+<body>
+    <section id="header">
+        <header class="main__hero">
+            <h1>Travel Planner App </h1>
+        </header>
+        <p>My trips:</p>
+    </section>
+    <section id="saved_trips">
+        <div id="trip_photo"></div>
+        <div class="trip_details">
+            <div id="trip_location-0"> My Trip to Paris, France</div>
+            <div id="trip_date-0">Departing: 12/25/2019</div>
+            <div id="trip_buttons-0">
+                <button id="trip_save_btn" type="button" class="trip_btn"> Save Trip</button>
+                <button id="trip_remove_btn" type="button" class="trip_btn"> Remove Trip</button>
+            </div>
+            <div id="trip_info-days-0">Paris is 220 days away</div>
+            <div id="trip_info-weather-0">
+                Typical weather for Paris is: <br>
+                High: 46 Low: 30<br>
+                Mostly sunny<br>
+            </div>
+        </div>
+    </section>
+    <section id="new_trip">
+        <form>
+            My Trip Location <input type="text" name="new_trip_location"><br>
+            Departing: <input type="date" name="new_trip_date"><br>
+            <button id="new_trip_search_btn" type="button"> Search Information</button><br>
+        </form>
+        <div id="new_trip_btn">
+            <button id="new_trip_save_btn" type="button" class="trip_btn"> Save Trip</button>
+            <button id="new_trip_remove_btn" type="button" class="trip_btn"> Remove Trip</button>
+        </div>
+        <div id="error_field"></div>
+    </section>
+</body>
+</html>
