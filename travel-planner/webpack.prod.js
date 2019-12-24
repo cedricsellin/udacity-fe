@@ -7,7 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
     entry: "./src/client/index.js",
     mode: 'production',
-    stats: 'verbose',   
+    stats: 'verbose',
     output: {
         library: 'lib'
     },
@@ -16,11 +16,15 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader' 
+                loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
-                use: ['mini-css-extract-plugin.Loader', 'css-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                loader: 'file-loader'
             }
         ]
     },
@@ -38,8 +42,8 @@ module.exports = {
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
         }),
-        new MiniCssExtractPlugin({filename: '[name].css'})
-    ],
-    
+        new MiniCssExtractPlugin({ filename: '[name].css' })
+    ]
+
 
 }

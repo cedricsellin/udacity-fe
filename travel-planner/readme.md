@@ -11,3 +11,10 @@ GET: '/oldtrips' to get the past trips - it will return a JSON with Date, Locati
 POST: '/newtrip' sending a JSON to the server to insert the latest trip information
 POST: '/removetrip' sending a JSON to the server to delete an existing trip
 
+
+//TODO: Deal with the caching of images?
+// REDIS INSTANCE - KUBERNETES - DOCKER
+// TEST OBSCURE LOCATION
+// TEST WHEN EMPTY ARRAY OF SAVED TRIPS
+// CHECK RUNNING THE SERVER FROM HIS LOCAL DIRECTORY 
+// WHERE IS THE INDEX.HTML COMING FROM

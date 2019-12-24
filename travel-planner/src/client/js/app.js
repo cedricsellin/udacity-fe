@@ -12,47 +12,24 @@ document.addEventListener('DOMContentLoaded', function () {
     newSearchButton.addEventListener('click', clickedOnSearch)
 
     loadSavedTrips()
-
 })
 
 
-
-const savedTrips = {
-    trips: [
-        {
-            city: 'Paris',
-            country: 'France',
-            departingDate: '12/25/2019',
-            tempLow: 10,
-            tempHigh: 20,
-            description: 'Mostly Sunny'
-        }, 
-        {
-            city: 'Tel Aviv',
-            country: 'Israel',
-            departingDate: '12/26/2020',
-            tempLow: 25,
-            tempHigh: 36,
-            description: 'Always Sunny'
-        },
-        {
-            city: 'London',
-            country: 'UK',
-            departingDate: '03/26/2020',
-            tempLow: -3,
-            tempHigh: 3,
-            description: 'Always Raining'
-        }
-    ]
-}
-
-
-function loadSavedTrips() {
+async function loadSavedTrips() {
 
     let html = ""
-    savedTrips.trips.forEach(element => {
+    try {
+        
+        const resp = await fetch('http://localhost:8080/savedTrips').catch(error => setErrorField(error))
+        
+        if (resp.status != 200){
+            setErrorField("Server Error "+resp.status)
+            return
+        }
+        
+        savedTrips.trips.forEach(element => {
 
-    html += `<div id="trip_photo"></div>
+            html += `<div id="trip_photo" class="trip_photo_holder"></div>
         <div class="trip_details">
             <div id="trip_location-0"> My Trip to Paris, France</div>
             <div id="trip_date-0">Departing: 12/25/2019</div>
@@ -68,13 +45,19 @@ function loadSavedTrips() {
             </div>
         </div>`
 
-    })
-
+        })
+    } catch (error) {
+        setErrorField(error.toString())
+    }
     savedTripsSection.innerHTML += html
 }
 
-function clickedOnSearch() {
-    errorField.innerHTML = "error"
+function setErrorField(err) {
+    errorField.innerHTML = err.toString()
+}
+
+function clickedOnSearch(event) {
+    console.log('clicked on Search')
 
 }
 
