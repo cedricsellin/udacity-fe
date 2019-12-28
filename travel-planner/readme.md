@@ -18,3 +18,4 @@ POST: '/removetrip' sending a JSON to the server to delete an existing trip
 // TEST WHEN EMPTY ARRAY OF SAVED TRIPS
 // CHECK RUNNING THE SERVER FROM HIS LOCAL DIRECTORY 
 // WHERE IS THE INDEX.HTML COMING FROM
+// DEAL WITH THE ALT from the images
