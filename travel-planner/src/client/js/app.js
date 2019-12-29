@@ -55,7 +55,7 @@ function generateTemplateHTML(element, i, savedTrip) {
     
     const values = element.departingDate.split("-")
     //Months start at 0 for some weird reason
-    const departingDate = new Date(parseInt(values[0]), parseInt(values[1])-1, parseInt(values[2]), 0, 0, 0, 0)
+    const departingDate = new Date(parseInt(values[0]), parseInt(values[1])-1, parseInt(values[2]))
     const diff = Math.round((today - departingDate)/(1000 * 60 * 60 * 24))
     const daysAbs = Math.abs(diff)
     const daysText = (diff > 0) ? "due" : "away"
@@ -66,7 +66,7 @@ function generateTemplateHTML(element, i, savedTrip) {
         <div id="trip_buttons_${i}">
             <button id="${buttonId}" data="${i}" uid="${UID}" type="button" class="trip_btn"> ${buttonText} </button>
         </div>
-        <div id="trip_info-days_${i}">Paris is ${daysAbs} days ${daysText} </div>
+        <div id="trip_info-days_${i}">${element.city} is ${daysAbs} days ${daysText} </div>
         <div id="trip_info-weather_${i}">
             Typical weather for ${element.city} is: <br>
             High: ${element.tempHigh} Low: ${element.tempLow}<br>
@@ -81,7 +81,7 @@ function setErrorField(err) {
 }
 
 async function clickedOnSearch(event) {
-    console.log('clicked on Search')
+    //console.log('clicked on Search')
     const locationField = document.getElementById('new_trip_location')
     const dateField = document.getElementById('new_trip_date')
 
@@ -100,7 +100,7 @@ async function clickedOnSearch(event) {
     }
     const location = encodeURIComponent(locationField.value)
     const date = encodeURIComponent(dateField.value)
-    console.log(document.getElementById('new_trip_date').value)
+    //console.log(document.getElementById('new_trip_date').value)
     const url = serverUrl + `/searchTrips/${location}/${date}`
 
     await fetch(url).then(resp => {
@@ -162,7 +162,7 @@ function removeTripBtnPressed(event) {
         const tripPhoto   = document.getElementById(`trip_photo_${id}`)
         tripDetails.style.display = 'none'
         tripPhoto.style.display = 'none'
-        console.log('removing element')
+        //console.log('removing element')
     }).catch(error => {
         setErrorField(error.toString())
     })
