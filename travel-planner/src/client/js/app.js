@@ -51,7 +51,14 @@ function generateTemplateHTML(element, i, savedTrip) {
     const buttonText = (savedTrip) ? "Remove Trip" : "Save Trip"// This is the text for the button 
     const buttonId = (savedTrip) ? `trip_remove_btn-${i}` : `trip_save_btn-${i}`
     const UID = `${element.city}${separator}${element.departingDate}${separator}${element.country}`
-
+    const today = new Date()
+    
+    const values = element.departingDate.split("-")
+    //Months start at 0 for some weird reason
+    const departingDate = new Date(parseInt(values[0]), parseInt(values[1])-1, parseInt(values[2]), 0, 0, 0, 0)
+    const diff = Math.round((today - departingDate)/(1000 * 60 * 60 * 24))
+    const daysAbs = Math.abs(diff)
+    const daysText = (diff > 0) ? "due" : "away"
     const newHtml = `<div id="trip_photo_${i}" class="trip_photo_holder"><img src="${element.imgURL}" alt="${element.tags}"  width="400"></div>
     <div class="trip_details" id="trip_details_${i}">
         <div id="trip_location_${i}"> My Trip to ${element.city}, ${element.country}</div>
@@ -59,7 +66,7 @@ function generateTemplateHTML(element, i, savedTrip) {
         <div id="trip_buttons_${i}">
             <button id="${buttonId}" data="${i}" uid="${UID}" type="button" class="trip_btn"> ${buttonText} </button>
         </div>
-        <div id="trip_info-days_${i}">Paris is 220 days away</div>
+        <div id="trip_info-days_${i}">Paris is ${daysAbs} days ${daysText} </div>
         <div id="trip_info-weather_${i}">
             Typical weather for ${element.city} is: <br>
             High: ${element.tempHigh} Low: ${element.tempLow}<br>
@@ -78,6 +85,7 @@ async function clickedOnSearch(event) {
     const locationField = document.getElementById('new_trip_location')
     const dateField = document.getElementById('new_trip_date')
 
+    setErrorField("")
     let success = true
 
     if (locationField.value.length == 0) {
