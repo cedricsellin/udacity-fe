@@ -48,7 +48,8 @@ app.use(express.static('dist'))
 
 app.listen(PORT, function () {
     console.log('server listening on port ' + PORT)
-    refreshImgURL()
+    //TODO: PUT THAT BACK
+    //refreshImgURL()
 })
 
 //Returning the website html page

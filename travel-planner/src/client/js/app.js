@@ -20,9 +20,9 @@ async function loadSavedTrips() {
     let html = ""
 
     const resp = await fetch('http://localhost:8080/savedTrips').then(response => {
-        if (response.status == 200)
+        if (response.status == 200) {
             return response.json()
-        else {
+        } else {
             throw new Error("Server Error " + response.status)
         }
     }).then(data => {
@@ -62,7 +62,7 @@ async function clickedOnSearch(event) {
 
     let success = true
 
-    if(locationField.value.length == 0) {
+    if (locationField.value.length == 0) {
         setErrorField("Invalid Location")
         return false
     }
@@ -76,15 +76,17 @@ async function clickedOnSearch(event) {
     const date = encodeURIComponent(dateField.value)
     console.log(document.getElementById('new_trip_date').value)
     const url = `http://localhost:8080/searchTrips/${location}/${date}`
-    
-    const resp = await fetch(url)
 
-    if (resp.status != 200) {
-        setErrorField('Server Error ' + resp.status)
-        success = false
-    }
-    console.log(resp.json())
+    await fetch(url).then(resp => {
 
+        if (resp.status != 200) {
+            setErrorField('Server Error ' + resp.status)
+            success = false
+        }
+        return resp.json()
+    }).then(data => console.log(data)).catch(error => {
+        setErrorField(errorField.toString())
+    })
     return success
 }
 

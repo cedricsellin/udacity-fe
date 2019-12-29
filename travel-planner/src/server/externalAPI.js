@@ -17,42 +17,45 @@ const geonameEndPoint = `http://api.geonames.org/postalCodeSearchJSON?username=$
 console.log(geonameEndPoint)
 
 async function getCityInformation(city) {
-    try {
-        const response = await fetch(geonameEndPoint).then(res => res.json()).then(value => {
-            const latitude = value.postalCodes[0].lat
-            const longitude = value.postalCodes[0].lng
-            const countryCode = value.postalCodes[0].countryCode
-            let weather = null
-            //const time = new Date()
-            //TODO: LOOK AT UNITS
-            const darkskyEndpoint = `https://api.darksky.net/forecast/${darkskyKey}/${latitude},${longitude}`
-            console.log(`latitude ${latitude}, longitude ${longitude}`)
-            console.log(darkskyEndpoint)
-            fetch(darkskyEndpoint).then(response => response.json()).then(value => {
-                console.log(value.daily.summary)
-                weather = value.daily.summary
-                const pixabayEndpoint = `http://pixabay.com/api/?key=${pixabayKey}&q=${city}`
-                console.log(pixabayEndpoint)
-                fetch(pixabayEndpoint).then(response => response.json()).then(data => {
 
-                    let json = {
-                        lat: latitude,
-                        lon: longitude,
-                        countryCode: countryCode,
-                        summary: weather,
-                        URL: data.hits[0].webformatURL
-                    }
-                    console.log('JSON '+JSON.stringify(json))
+    let latitude = null
+    let longitude = null
+    let countryCode = null
+    let weather = null
 
-                    return (json)
-                })
-            })
-        })
-    } catch (error) {
-        console.log(error)
+
+    const geoResponse = await fetch(geonameEndPoint).then(res => res.json()).then(value => {
+        latitude = value.postalCodes[0].lat
+        longitude = value.postalCodes[0].lng
+        countryCode = value.postalCodes[0].countryCode
+    }).catch(error => { console.log(error.toString()) })
+
+    //const time = new Date()
+    //TODO: LOOK AT UNITS
+    const darkskyEndpoint = `https://api.darksky.net/forecast/${darkskyKey}/${latitude},${longitude}`
+    console.log(`latitude ${latitude}, longitude ${longitude}`)
+    console.log(darkskyEndpoint)
+    const darkskyResponse = await fetch(darkskyEndpoint).then(response => response.json()).then(value => {
+        console.log(value.daily.summary)
+        weather = value.daily.summary
+    }).catch(error => { console.log(error.toString()) })
+
+    const pixabayEndpoint = `http://pixabay.com/api/?key=${pixabayKey}&q=${city}`
+    console.log(pixabayEndpoint)
+
+    const url = await getPixabayImgURL(city)
+
+    let json = {
+        lat: latitude,
+        lon: longitude,
+        countryCode: countryCode,
+        summary: weather,
+        URL: url
     }
+    console.log('JSON ' + JSON.stringify(json))
+
+    return (json)
 }
-//test()
 
 async function getPixabayImgURL(city) {
     const pixabayEndpoint = `http://pixabay.com/api/?key=${pixabayKey}&q=${city}`
