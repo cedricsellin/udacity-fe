@@ -4,6 +4,9 @@ let saveNewTripButton = null
 let newSearchButton = null
 let errorField = null
 let savedTripsSection = null
+let searchResultSection = null
+const separator = "%"
+const serverUrl = "http://localhost:8080"
 
 document.addEventListener('DOMContentLoaded', function () {
     newSearchButton = document.getElementById('new_trip_search_btn')
@@ -11,44 +14,59 @@ document.addEventListener('DOMContentLoaded', function () {
     savedTripsSection = document.getElementById('past_trips')
     newSearchButton.addEventListener('click', clickedOnSearch)
 
+    searchResultSection = document.getElementById('search_result')
     loadSavedTrips()
 })
-
 
 async function loadSavedTrips() {
 
     let html = ""
+    let i = 0
 
-    const resp = await fetch('http://localhost:8080/savedTrips').then(response => {
+    //Resetting the loaded trips to support the reloading
+    savedTripsSection.innerHTML = ""
+    const resp = await fetch(serverUrl + '/savedTrips').then(response => {
         if (response.status == 200) {
             return response.json()
         } else {
             throw new Error("Server Error " + response.status)
         }
     }).then(data => {
-        data.trips.forEach(element => {
+        data.forEach(element => {
 
-            html += `<div id="trip_photo" class="trip_photo_holder"><img src="${element.imgURL}" alt="${element.tags}"  width="400"></div>
-            <div class="trip_details">
-                <div id="trip_location-0"> My Trip to ${element.city}, ${element.country}</div>
-                <div id="trip_date-0">Departing: ${element.departingDate}</div>
-                <div id="trip_buttons-0">
-                    <button id="trip_save_btn" type="button" class="trip_btn"> Save Trip</button>
-                    <button id="trip_remove_btn" type="button" class="trip_btn"> Remove Trip</button>
-                </div>
-                <div id="trip_info-days-0">Paris is 220 days away</div>
-                <div id="trip_info-weather-0">
-                    Typical weather for ${element.city} is: <br>
-                    High: ${element.tempHigh} Low: ${element.tempLow}<br>
-                    ${element.description}<br>
-                </div>
-            </div>`
-
+            html += generateTemplateHTML(element, i, true)
+            i++
         })
     }).catch(error => setErrorField(error.toString()))
 
     savedTripsSection.innerHTML += html
 
+    for (let j = 0; j < i; j++) {
+        document.getElementById(`trip_remove_btn-${j}`).addEventListener('click', removeTripBtnPressed)
+    }
+
+}
+// Passing the element which has all the information and a unique id and a boolean to know if it is saved trip or a new one ;-)
+function generateTemplateHTML(element, i, savedTrip) {
+    const buttonText = (savedTrip) ? "Remove Trip" : "Save Trip"// This is the text for the button 
+    const buttonId = (savedTrip) ? `trip_remove_btn-${i}` : `trip_save_btn-${i}`
+    const UID = `${element.city}${separator}${element.departingDate}${separator}${element.country}`
+
+    const newHtml = `<div id="trip_photo_${i}" class="trip_photo_holder"><img src="${element.imgURL}" alt="${element.tags}"  width="400"></div>
+    <div class="trip_details" id="trip_details_${i}">
+        <div id="trip_location_${i}"> My Trip to ${element.city}, ${element.country}</div>
+        <div id="trip_date_${i}">Departing: ${element.departingDate}</div>
+        <div id="trip_buttons_${i}">
+            <button id="${buttonId}" data="${i}" uid="${UID}" type="button" class="trip_btn"> ${buttonText} </button>
+        </div>
+        <div id="trip_info-days_${i}">Paris is 220 days away</div>
+        <div id="trip_info-weather_${i}">
+            Typical weather for ${element.city} is: <br>
+            High: ${element.tempHigh} Low: ${element.tempLow}<br>
+            ${element.description}<br>
+        </div>
+    </div>`
+    return newHtml
 }
 
 function setErrorField(err) {
@@ -75,7 +93,7 @@ async function clickedOnSearch(event) {
     const location = encodeURIComponent(locationField.value)
     const date = encodeURIComponent(dateField.value)
     console.log(document.getElementById('new_trip_date').value)
-    const url = `http://localhost:8080/searchTrips/${location}/${date}`
+    const url = serverUrl + `/searchTrips/${location}/${date}`
 
     await fetch(url).then(resp => {
 
@@ -83,28 +101,61 @@ async function clickedOnSearch(event) {
             setErrorField('Server Error ' + resp.status)
             success = false
         }
-        return resp.json()
-    }).then(data => console.log(data)).catch(error => {
+        return resp.json()   //TODO: DEAL WITH MULTIPLE SEARCH RESULTS
+    }).then(data => { 
+        let i = 0
+        searchResultSection.innerHTML = generateTemplateHTML(data, i, false)
+        document.getElementById(`trip_save_btn-${i}`).addEventListener('click', saveTripBtnPressed)
+    
+    }).catch(error => {
         setErrorField(errorField.toString())
     })
     return success
 }
 
+function saveTripBtnPressed(event) {
+    const id = event.target.getAttribute('data')
+    const uid = event.target.getAttribute('uid')
+    const values = uid.split(separator)
 
+    const resp = fetch(serverUrl + `/newtrip`, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            city: values[0],
+            departingDate: values[1],
+            country: values[2]
+        })
+    }).then(resp => {
+        //Reload the trips now that we have added a new one ;-)
+        loadSavedTrips()
+        //Removing the old search given we are saving it
+        searchResultSection.innerHTML = ""
+    }).catch(error => {
+        setErrorField(error.toString())
+    })
+}
 
-/*
-function async postSearch() {
-    const response = await fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-      });
-} */
+function removeTripBtnPressed(event) {
+    const id = event.target.getAttribute('data')
+    const uid = event.target.getAttribute('uid')
+    const values = uid.split(separator)
+
+    const resp = fetch(serverUrl + `/removetrip`, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            city: values[0],
+            departingDate: values[1],
+            country: values[2]
+        })
+    }).then(resp => {
+        const tripDetails = document.getElementById(`trip_details_${id}`)
+        const tripPhoto   = document.getElementById(`trip_photo_${id}`)
+        tripDetails.style.display = 'none'
+        tripPhoto.style.display = 'none'
+        console.log('removing element')
+    }).catch(error => {
+        setErrorField(error.toString())
+    })
+}

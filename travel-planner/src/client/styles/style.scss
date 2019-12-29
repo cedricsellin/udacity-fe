@@ -1,6 +1,6 @@
 $break-small:800px;
 
-#past_trips {
+#past_trips, #search_result {
     display: grid;
     background-color: lightblue;
     grid-template-columns: 400px auto;
